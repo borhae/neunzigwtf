@@ -92,3 +92,25 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.animate-flash {
+  animation: flash 0.3s infinite;
+}
+
+.rainbow-text {
+  background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes launch {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-60vh) rotate(1deg); }
+  60% { transform: translateY(-120vh) rotate(-1deg); }
+  100% { transform: translateY(-200vh) rotate(0); opacity: 0; }
+}
