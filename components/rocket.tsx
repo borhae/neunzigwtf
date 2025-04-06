@@ -107,54 +107,58 @@ export default function Rocket() {
 
   return (
     <div ref={rocketRef} className="z-50 animate-flash" style={initialStyle}>
-      {/* 
-        The inner container scales the rocket and applies the computed rotation so that it points along its flight path.
-        We remove the hard-coded rotate-[-45deg] class and instead apply the rotation via inline style.
-      */}
-      <div className="relative origin-center w-[32px]" style={{ transform: `rotate(${innerRotation}deg) scale(10)` }}>
-        <svg
-          viewBox="0 0 64 64"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="url(#rainbowGradient)"
-          stroke="white"
-          strokeWidth="1"
-        >
-          <defs>
-            <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="red" />
-              <stop offset="16%" stopColor="orange" />
-              <stop offset="32%" stopColor="yellow" />
-              <stop offset="48%" stopColor="green" />
-              <stop offset="64%" stopColor="blue" />
-              <stop offset="80%" stopColor="indigo" />
-              <stop offset="100%" stopColor="violet" />
-            </linearGradient>
-            <linearGradient id="rainbowGradientText" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="red" />
-              <stop offset="16%" stopColor="orange" />
-              <stop offset="32%" stopColor="yellow" />
-              <stop offset="48%" stopColor="green" />
-              <stop offset="64%" stopColor="blue" />
-              <stop offset="80%" stopColor="indigo" />
-              <stop offset="100%" stopColor="violet" />
-            </linearGradient>
-          </defs>
-          {/* The SVG path data is provided by the RocketPath component */}
-          <RocketPath />
-          {/* SVG Text inside the rocket */}
-          <text
-            x="35"
-            y="32"
-            textAnchor="middle"
-            alignmentBaseline="middle"
-            fontSize="6"
-            fontWeight="bold"
-            fill="url(#rainbowGradientText)"
-          >
-            06.09.2025
-          </text>
-        </svg>
-      </div>
+        <a href="https://onk.style/s/9yeK7WEimtkjp8m">
+        {/* 
+            The inner container scales the rocket and applies the computed rotation so that it points along its flight path.
+            We remove the hard-coded rotate-[-45deg] class and instead apply the rotation via inline style.
+        */}
+        <div className="relative origin-center w-[80px]" style={{ transform: `rotate(${innerRotation}deg) scale(10)` }}>
+            <svg
+            viewBox="0 0 64 64"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="url(#rainbowGradient)"
+            stroke="white"
+            strokeWidth="0.5"
+            >
+            <defs>
+                <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="red" />
+                <stop offset="16%" stopColor="orange" />
+                <stop offset="32%" stopColor="yellow" />
+                <stop offset="48%" stopColor="green" />
+                <stop offset="64%" stopColor="blue" />
+                <stop offset="80%" stopColor="indigo" />
+                <stop offset="100%" stopColor="violet" />
+                </linearGradient>
+                <linearGradient id="rainbowGradientText" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="red" />
+                <stop offset="16%" stopColor="orange" />
+                <stop offset="32%" stopColor="yellow" />
+                <stop offset="48%" stopColor="green" />
+                <stop offset="64%" stopColor="blue" />
+                <stop offset="80%" stopColor="indigo" />
+                <stop offset="100%" stopColor="violet" />
+                </linearGradient>
+            </defs>
+            {/* The SVG path data is provided by the RocketPath component */}
+            <RocketPath />
+            {/* SVG Text inside the rocket */}
+            <text
+                x="35"
+                y="32"
+                textAnchor="middle"
+                alignmentBaseline="middle"
+                fontFamily='Orbitron'
+                fontSize="4"
+                fontWeight="bold"
+                fill="url(#rainbowGradientText)"
+                strokeWidth="0.1"
+            >
+                06.09.2025
+            </text>
+            </svg>
+        </div>
+        </a>
     </div>
   )
 }
