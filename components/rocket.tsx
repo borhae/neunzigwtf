@@ -2,10 +2,10 @@
 import { useEffect, useRef, useState } from 'react'
 import RocketPath from '@/components/RocketPath'
 
-// A helper function is not strictly needed here, so we generate the keyframes inline.
 export default function Rocket() {
   const rocketRef = useRef<HTMLDivElement>(null)
   const [initialStyle, setInitialStyle] = useState({})
+  const [innerRotation, setInnerRotation] = useState(0)
 
   useEffect(() => {
     const vw = window.innerWidth
@@ -58,8 +58,7 @@ export default function Rocket() {
     const deltaX = endX - startX
     const deltaY = endY - startY
 
-    // We want the coordinate (startX, startY) to be the CENTER of the rocket.
-    // So we set initialStyle with a transform: translate(-50%, -50%).
+    // We want (startX, startY) to be the center of the rocket.
     setInitialStyle({
       position: 'absolute',
       left: `${startX}px`,
@@ -68,8 +67,15 @@ export default function Rocket() {
       animation: 'fly-rocket 6s ease-in forwards',
     })
 
-    // Now we generate keyframes that start from the center (translate(-50%, -50%))
-    // and add the delta gradually. Here we slow down between 40% and 60%, then accelerate.
+    // Calculate flight angle in radians and then convert to degrees.
+    // Math.atan2(deltaY, deltaX) returns the angle relative to the positive x-axis.
+    const flightAngleRad = Math.atan2(deltaY, deltaX)
+    const flightAngleDeg = flightAngleRad * (180 / Math.PI)
+    // Your SVG is drawn rotated 45° clockwise by default,
+    // so subtract 45° to get the correct final rotation.
+    setInnerRotation(flightAngleDeg + 45)
+
+    // Generate dynamic keyframes (with slowdown between 40% and 60% of flight)
     const keyframes = `
       @keyframes fly-rocket {
         0% {
@@ -101,8 +107,11 @@ export default function Rocket() {
 
   return (
     <div ref={rocketRef} className="z-50 animate-flash" style={initialStyle}>
-      {/* The inner container scales, rotates the SVG so that the drawn rocket is oriented correctly */}
-      <div className="relative scale-[10] origin-center rotate-[-45deg] w-[32px]">
+      {/* 
+        The inner container scales the rocket and applies the computed rotation so that it points along its flight path.
+        We remove the hard-coded rotate-[-45deg] class and instead apply the rotation via inline style.
+      */}
+      <div className="relative origin-center w-[32px]" style={{ transform: `rotate(${innerRotation}deg) scale(10)` }}>
         <svg
           viewBox="0 0 64 64"
           xmlns="http://www.w3.org/2000/svg"
