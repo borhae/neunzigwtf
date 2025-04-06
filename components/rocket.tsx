@@ -112,7 +112,7 @@ export default function Rocket() {
             The inner container scales the rocket and applies the computed rotation so that it points along its flight path.
             We remove the hard-coded rotate-[-45deg] class and instead apply the rotation via inline style.
         */}
-        <div className="relative origin-center w-[80px]" style={{ transform: `rotate(${innerRotation}deg) scale(10)` }}>
+        <div className="relative origin-center w-[32px] md:w-[48px] lg:w-[64px] xl:w-[96px]" style={{ transform: `rotate(${innerRotation}deg) scale(10)` }}>
             <svg
             viewBox="0 0 64 64"
             xmlns="http://www.w3.org/2000/svg"

@@ -13,7 +13,7 @@ export default function Home() {
 
       // Hide rocket after 6 seconds
       setTimeout(() => setShowRocket(false), 6000)
-    }, Math.random() * 1000 + 5000) // Between 5 and 15 seconds
+    }, Math.random() * 10000 + 5000) // Between 5 and 15 seconds
 
     return () => clearInterval(interval)
   }, [])
@@ -24,7 +24,7 @@ export default function Home() {
 
       <div className="relative z-10 flex items-center justify-center min-h-screen">
       {showRocket && <Rocket />}
-          <h1 className="text-6xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#aaff00] to-[#39ff14] animate-pulse">
+          <h1 className="text-3xl md:text-6xl xl:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#aaff00] to-[#39ff14] animate-pulse">
             neunzig.wtf
           </h1>
       </div>
