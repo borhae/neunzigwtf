@@ -2,6 +2,38 @@
 import { useEffect, useRef, useState } from 'react'
 import RocketPath from '@/components/RocketPath'
 
+// A helper function to generate keyframes dynamically.
+// `deltaX` and `deltaY` are the total movements (end - start).
+// `config` lets you specify at what percentage the slowdown starts and ends,
+// plus an optional mid-flight offset to simulate slowing down.
+function generateKeyframes(
+    deltaX: number,
+    deltaY: number,
+    config: { slowStart: number; slowEnd: number; midOffset: number }
+  ): string {
+    return `
+      @keyframes fly-rocket {
+        0% {
+          transform: translateX(-50%) translate(0, 0);
+          opacity: 1;
+        }
+        ${config.slowStart}% {
+          transform: translateX(-50%) translate(${deltaX * (config.slowStart / 100)}px, ${deltaY * (config.slowStart / 100)}px);
+          opacity: 1;
+        }
+        ${config.slowEnd}% {
+          transform: translateX(-50%) translate(${deltaX * (config.slowEnd / 100)}px, ${deltaY * (config.slowEnd / 100) + config.midOffset}px);
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(-50%) translate(${deltaX}px, ${deltaY}px);
+          opacity: 1;
+        }
+      }
+    `;
+  }
+  
+
 export default function Rocket() {
     const rocketRef = useRef<HTMLDivElement>(null)
     const [initialStyle, setInitialStyle] = useState({})
@@ -28,20 +60,18 @@ export default function Rocket() {
             left: `${startX}px`,
             top: `${startY}px`,
             // The animation property will be handled by the dynamically generated keyframes
-            animation: 'fly-rocket 2s ease-in forwards',
+            animation: 'fly-rocket 4s ease-in forwards',
         })
 
         // Create dynamic keyframes including the horizontal centering offset.
         // This ensures that the rocket's horizontal offset (translateX(-50%))
         // is applied throughout the animation.
         const styleEl = document.createElement('style')
-        styleEl.innerHTML = `
-            @keyframes fly-rocket {
-            0% { transform: translateX(-50%) translate(0, 0); opacity: 1; }
-            100% { transform: translateX(-50%) translate(0, -100vh); opacity: 1; }
-            }    
-         `
-        document.head.appendChild(styleEl)
+        const config = { slowStart: 40, slowEnd: 60, midOffset: -20 }
+        const keyframes = generateKeyframes(deltaX, deltaY, config)
+       styleEl.innerHTML = keyframes
+ 
+         document.head.appendChild(styleEl)
 
         // Clean up the dynamic style element when the component unmounts.
         return () => {
