@@ -21,7 +21,7 @@ export default function Rocket() {
             className="absolute bottom-0 right-0 z-50 animate-flash"
             style={style}
         >
-            <div className="scale-[3] origin-bottom text-center rotate-[-45deg]">
+            <div className="scale-[3] origin-bottom text-center rotate-[-45deg]  w-[128px]">
                 <svg
                     viewBox="0 0 64 64"
                     xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ export default function Rocket() {
                     <RocketPath />
                     <g id="rocket-text">
                         <text
-                            x="32"
+                            x="35"
                             y="32"
                             textAnchor="middle"
                             alignmentBaseline="middle"
@@ -65,7 +65,6 @@ export default function Rocket() {
                     </g>
                 </svg>
             </div>
-            <div className="mt-1 text-sm font-bold text-center rainbow-text">06.09.2025</div>
         </div>
     )
 }
