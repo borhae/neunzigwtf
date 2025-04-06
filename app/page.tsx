@@ -12,7 +12,7 @@ export default function Home() {
       setShowRocket(true)
 
       // Hide rocket after 3 seconds
-      setTimeout(() => setShowRocket(false), 3000)
+      setTimeout(() => setShowRocket(false), 6000)
     }, Math.random() * 10000 + 5000) // Between 5 and 15 seconds
 
     return () => clearInterval(interval)

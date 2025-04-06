@@ -4,30 +4,62 @@ import RocketPath from '@/components/RocketPath'
 
 export default function Rocket() {
     const rocketRef = useRef<HTMLDivElement>(null)
-    const [style, setStyle] = useState({})
+    const [initialStyle, setInitialStyle] = useState({})
 
     useEffect(() => {
-        const angle = -60 - Math.random() * 60 // -60° to -120°
-        const horizontalShift = (Math.random() - 0.5) * 100 // -50 to +50 px
+        // Calculate the viewport dimensions
+        const vw = window.innerWidth
+        const vh = window.innerHeight
 
-        setStyle({
-            animation: `launch 6s ease-in forwards`, // slower animation
+        // For a bottom-center to top-center launch, we use these:
+        const startX = vw / 2
+        const startY = vh
+        const endX = vw / 2
+        const endY = 0
+
+        // Calculate the deltas relative to the starting point
+        const deltaX = endX - startX  // should be 0 since both are centered horizontally
+        const deltaY = endY - startY
+
+        // Set the initial absolute position of the rocket.
+        // Notice that we no longer include a transform here.
+        setInitialStyle({
+            position: 'absolute',
+            left: `${startX}px`,
+            top: `${startY}px`,
+            // The animation property will be handled by the dynamically generated keyframes
+            animation: 'fly-rocket 2s ease-in forwards',
         })
+
+        // Create dynamic keyframes including the horizontal centering offset.
+        // This ensures that the rocket's horizontal offset (translateX(-50%))
+        // is applied throughout the animation.
+        const styleEl = document.createElement('style')
+        styleEl.innerHTML = `
+            @keyframes fly-rocket {
+            0% { transform: translateX(-50%) translate(0, 0); opacity: 1; }
+            100% { transform: translateX(-50%) translate(0, -100vh); opacity: 1; }
+            }    
+         `
+        document.head.appendChild(styleEl)
+
+        // Clean up the dynamic style element when the component unmounts.
+        return () => {
+            document.head.removeChild(styleEl)
+        }
     }, [])
 
     return (
-        <div
-            ref={rocketRef}
-            className="absolute bottom-0 right-0 z-50 animate-flash"
-            style={style}
-        >
-            <div className="scale-[3] origin-bottom text-center rotate-[-45deg]  w-[128px]">
+        // This outer div gets the initialStyle with the absolute position and animation.
+        <div ref={rocketRef} className="z-50 animate-flash" style={initialStyle}>
+            {/* The inner container that scales, rotates, and holds the SVG */}
+            <div className="relative scale-[10] origin-center rotate-[-45deg] w-[32px]">
                 <svg
                     viewBox="0 0 64 64"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="url(#rainbowGradient)"
-                    stroke="white"               // ← changed from "black" to "white"
-                    strokeWidth="0.5"            // tweak this higher if you need more definition
+                    stroke="white"
+                    strokeWidth="1"
                 >
                     <defs>
                         <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -49,20 +81,20 @@ export default function Rocket() {
                             <stop offset="100%" stopColor="violet" />
                         </linearGradient>
                     </defs>
+                    {/* Import the SVG paths from the separate component */}
                     <RocketPath />
-                    <g id="rocket-text">
-                        <text
-                            x="35"
-                            y="32"
-                            textAnchor="middle"
-                            alignmentBaseline="middle"
-                            fontSize="6"
-                            fontWeight="bold"
-                            fill="url(#rainbowGradientText)"
-                        >
-                            06.09.2025
-                        </text>
-                    </g>
+                    {/* SVG Text inside the rocket */}
+                    <text
+                        x="35"
+                        y="32"
+                        textAnchor="middle"
+                        alignmentBaseline="middle"
+                        fontSize="6"
+                        fontWeight="bold"
+                        fill="url(#rainbowGradientText)"
+                    >
+                        06.09.2025
+                    </text>
                 </svg>
             </div>
         </div>
