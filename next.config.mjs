@@ -27,10 +27,32 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+
+  async redirects() {
+    const registerLink = "https://onk.style/s/9yeK7WEimtkjp8m"
+    const baseRedirects = [
+      {
+        source: '/register',
+        destination: registerLink,
+        permanent: false,
+      },
+    ]
+
+    // Also merge userConfig.redirects() if it exists
+    if (userConfig?.redirects) {
+      const userRedirects =
+        typeof userConfig.redirects === 'function'
+          ? await userConfig.redirects()
+          : userConfig.redirects
+
+      return [...baseRedirects, ...userRedirects]
+    }
+
+    return baseRedirects
+  },
 }
 
 if (userConfig) {
-  // ESM imports will have a "default" property
   const config = userConfig.default || userConfig
 
   for (const key in config) {
@@ -42,7 +64,8 @@ if (userConfig) {
         ...nextConfig[key],
         ...config[key],
       }
-    } else {
+    } else if (key !== 'redirects') {
+      // Avoid overriding the merged redirects function
       nextConfig[key] = config[key]
     }
   }
