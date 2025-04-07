@@ -35,33 +35,35 @@ export default function Home() {
       <BubbleBackground />
 
       <div className="relative z-10 flex items-center justify-center min-h-screen">
-        {displayState === "rocket" ? (
-          <Rocket />
-        ) : displayState === "wild" ? (
-          <>
-            {wildVariant === "wild1" && (
-              // Wild Variant 1: Spinning effect.
-              <h1 className="text-6xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 animate-spin">
-                neunzig<span className="text-white">.</span>wtf
-              </h1>
-            )}
-            {wildVariant === "wild2" && (
-              // Wild Variant 2: 3D rotating text.
-              <ThreeDText />
-            )}
-            {wildVariant === "wild3" && (
-              // Wild Variant 3: Explosion effect.
-              <h1 className="text-6xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 animate-explode">
-                neunzig<span className="text-white">.</span>wtf
-              </h1>
-            )}
-          </>
+      <>
+      {/* The rocket floats separately */}
+      {displayState === "rocket" && <Rocket />}
+
+      {/* The title is always visible and styled dynamically */}
+      <h1
+        className={`text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-bold text-transparent bg-clip-text
+          ${
+            displayState === "wild"
+              ? wildVariant === "wild1"
+                ? "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 animate-spin"
+                : wildVariant === "wild3"
+                ? "bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 animate-explode"
+                : ""
+              : "bg-gradient-to-b from-[#aaff00] to-[#39ff14]"
+          }`}
+      >
+        {displayState === "wild" && wildVariant === "wild2" ? (
+          <ThreeDText />
         ) : (
-          // Regular state: stable (non-animated) text.
-          <h1 className="text-6xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#aaff00] to-[#39ff14]">
-            neunzig<span className="text-[#00ff44]">.</span>wtf
-          </h1>
+          <>
+            neunzig
+            <span className={displayState === "wild" ? "text-white" : "text-[#00ff44]"}>.</span>
+            wtf
+          </>
         )}
+      </h1>
+      </>
+
       </div>
     </div>
   )

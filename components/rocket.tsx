@@ -6,6 +6,7 @@ export default function Rocket() {
   const rocketRef = useRef<HTMLDivElement>(null)
   const [initialStyle, setInitialStyle] = useState({})
   const [innerRotation, setInnerRotation] = useState(0)
+  
 
   useEffect(() => {
     const vw = window.innerWidth
@@ -112,10 +113,11 @@ export default function Rocket() {
             The inner container scales the rocket and applies the computed rotation so that it points along its flight path.
             We remove the hard-coded rotate-[-45deg] class and instead apply the rotation via inline style.
         */}
-        <div className="relative origin-center w-[32px] md:w-[48px] lg:w-[64px] xl:w-[96px]" style={{ transform: `rotate(${innerRotation}deg) scale(10)` }}>
+        <div className="group relative origin-center w-[200px] md:w-[300px] lg:w-[400px] xl:w-[500px]" style={{ transform: `rotate(${innerRotation}deg) scale(1)` }}>
             <svg
             viewBox="0 0 64 64"
             xmlns="http://www.w3.org/2000/svg"
+            className="transition-all duration-300 group-hover:drop-shadow-[0_0_8px_#39ff14] group-hover:scale-110"
             fill="url(#rainbowGradient)"
             stroke="white"
             strokeWidth="0.5"
